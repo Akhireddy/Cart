@@ -1,0 +1,33 @@
+pipeline {
+    agent {
+      label 'WORKSTATION'
+    }
+
+    triggers {
+      pollSCM('H/2 * * * *')
+    }
+
+    stages {
+
+
+      stage('Check the Code Quality') {
+        steps {
+          script {
+            sh 'sonar-scanner -Dsonar.projectKey=${COMPONENT} -Dsonar.sources=. -Dsonar.host.url=http://34.125.133.79:9000 -Dsonar.login=admin -Dsonar.password=admin123'
+          }
+        }
+      }
+
+      stage('Lint Checks') {
+        steps {
+          sh 'echo Lint Cases'
+        }
+      }
+
+      stage('Test Cases') {
+        steps {
+          sh 'echo Test Cases'
+        }
+      }
+    }
+}
